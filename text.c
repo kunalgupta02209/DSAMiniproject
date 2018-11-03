@@ -1,11 +1,33 @@
 #include "text.h"
 
-void convert_str_to_words(char* str, Word *wFront, Word *wEnd, int *chars, int *words)
+void convert_str_to_words(char *str, Word *wFront, Word *wEnd, int *chars, int *words)
 {
-	*words = 0;
-	*chars = strlen(str);
-	
-
+	int wds = 0;
+	int chs = strlen(str);
+	*chars = chs;
+	Word *temp, *prev;
+	char *ptr = strtok(str, " ");
+	while(ptr != NULL)
+	{
+		printf("'%s'\n", ptr);
+		temp = (Word*)malloc(sizeof(Word*));
+		temp->size = strlen(ptr);
+		temp->chs = (char*) malloc(temp->size*sizeof(char*));
+		strcpy(temp->chs, ptr);
+		printf("'%s'\n", temp->chs);
+		temp->next = NULL;
+		temp->prev = NULL;
+		if(wds == 0)
+			wFront = temp;
+		else
+		{
+			temp->prev = prev;
+			prev->next = temp;
+			prev = temp;
+		}
+		wds += 1;
+	}
+	prev
 }
 
 
