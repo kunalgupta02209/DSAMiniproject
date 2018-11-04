@@ -1,5 +1,5 @@
 #include "text.h"
-
+/*
 void convert_str_to_words(char *str, Word *wFront, Word *wEnd, int *chars, int *words)
 {
 	int wds = 0;
@@ -27,9 +27,68 @@ void convert_str_to_words(char *str, Word *wFront, Word *wEnd, int *chars, int *
 		}
 		wds += 1;
 	}
-	prev
+	wEnd = prev;
+}
+*/
+
+void convert_str_to_chs(char *str, Ch *cFront, Ch *cEnd, int *chars)
+{
+	*chars = strlen(str);
+	Ch *temp, *prev;
+	for(int i = 0; i < *chars; i++)
+	{
+		temp = (Ch*)malloc(sizeof(Ch*));
+		temp->ch = str[i];
+		if(i == 0)
+		{
+			cFront = temp;
+			prev = temp;
+		}
+		else
+		{
+			temp->prev = prev;
+			prev->next = temp;
+			prev = temp;
+		}
+	}
+	cEnd = prev;
 }
 
+Ch* findPos(Line *line, int pos)
+{
+	Ch *temp = line->first_char;
+	int i = 0;
+	while(i!=pos)
+		temp=temp->next;
+	return temp;
+}
+
+int insert_at_pos(Line *l, int position, char *str)
+{
+	if(position > l->no_of_chars+1)
+		return 0;
+	Ch *cFront, *cEnd;
+	Ch *pos = findPos(l, position);
+	Ch *pos2 = pos->next;
+	int chars = 0;
+	convert_str_to_chs(str, cFront, cEnd, &chars);
+	l->no_of_chars += chars;
+
+	if(pos != NULL)
+		pos->next = cFront;
+	else if(l->first_char == NULL)
+		l->first_char = cFront;
+	cFront->prev = pos;
+
+	if(pos2 != NULL)
+		pos2->prev = cEnd;
+	else
+		l->last_char = cEnd;
+	cEnd->next = pos2;
+
+	return 1;
+}
+/*
 
 int insert(Lines *lines, char *str)
 {
@@ -80,7 +139,7 @@ int insert_at_pos(Lines *lines, Line *line, Word *word, char *st)
 {
 
 }
-
+ */
 
 
 void main()

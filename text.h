@@ -12,10 +12,17 @@ struct w{
 
 typedef struct w Word;
 
+struct c{
+	char c;
+	struct c *next, *prev;
+};
+
+typedef struct c Ch;
+
 struct l{
-	Word *first_word;
+	Ch *first_char, *last_char;
 	int no_of_chars; 
-	int words; //no. of words
+	//int words; //no. of words
 	struct l *next, *prev;
 };
 
@@ -28,5 +35,8 @@ struct ls{
 
 typedef struct ls Lines;
 
-int insert_front(Line line, char* str);
-void convert_str_to_words(char *str, Word *wFront, Word *wEnd, int *chars, int *words);
+//int insert_front(Line line, char* str);
+//void convert_str_to_words(char *str, Word *wFront, Word *wEnd, int *chars, int *words);
+Ch* findPos(Line line, int pos);
+void convert_str_to_chs(char *str, Ch *cFront, Ch cEnd, int *chars);
+Ch* insert_at_pos(Line l, int pos, char *str);
