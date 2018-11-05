@@ -68,8 +68,10 @@ int insert_at_pos(Line *l, int position, char *str)
 	if(position > l->no_of_chars+1)
 		return 0;
 	Ch *cFront, *cEnd;
-	Ch *pos = findPos(l, position);
-	Ch *pos2 = pos->next;
+	Ch *pos = findPos(l, position);	
+	Ch *pos2;
+	if(pos != NULL)
+		pos2 = pos->next;
 	int chars = 0;
 	convert_str_to_chs(str, cFront, cEnd, &chars);
 	l->no_of_chars += chars;
@@ -116,13 +118,13 @@ int insert(Lines *lines, char *str)
 		}else{
 			prev->next = temp;
 			temp->prev = prev;
-			prev = temp;		
+			prev = temp;
 		}
 		line->words += 1;
 		ptr = strtok(NULL, delim);
 	}
 	if(lines->first_line == NULL)
-		
+
 }
 
 void addLine(Lines *l, Line *ll)
@@ -142,15 +144,20 @@ int insert_at_pos(Lines *lines, Line *line, Word *word, char *st)
  */
 
 
-void main()
+int main()
 {
-	Lines *lines = (Lines*) malloc(sizeof(Lines*));
-	lines->no_of_lines = 0;
-	lines->first_line = NULL;
-	char s[1000];
+
+	//Lines *lines = (Lines*) malloc(sizeof(Lines*));
+	//lines->no_of_lines = 0;
+	//lines->first_line = NULL;
+	//char s[1000];
 //	fgets(s, 1000, stdin);
+
 	char str[] = "strtok needs to be called several times to split a string";
-	insert(lines, str);
+	Line *l = (Line*)malloc(sizeof(Line));
+	l->no_of_chars = 0;
+	insert_at_pos(l,0,str);
+	//insert(lines, str);
 	//Lines lines = (Lines*)malloc(sizeof(Lines*));
 	//lines.no_of_lines = 0;
 	//lines.line_head = null;
@@ -158,4 +165,5 @@ void main()
 	//new->chs = (char*)malloc(10*sizeof(char));
 	//new->chs = "thisStr";
 	//printf("%s",new->chs);
+	return 0;
 }
