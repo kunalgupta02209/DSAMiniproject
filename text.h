@@ -32,11 +32,11 @@ typedef struct l Line;
 	Line *first_line;
 	int no_of_lines; //no. pf lines
 };
-
 typedef struct ls Lines;
 */
 //int insert_front(Line line, char* str);
 //void convert_str_to_words(char *str, Word *wFront, Word *wEnd, int *chars, int *words);
 Ch* findPos(Line *line, int pos);
-Line convert_str_to_chs(char *str);
-int insert_at_pos(Line *l, int position, char *str);
+Line* convert_str_to_chs(char *str);
+Line* insert_at_pos(Line *l, int position, char *str);
+void display(Line *l);
