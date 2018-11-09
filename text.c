@@ -31,9 +31,10 @@ void convert_str_to_words(char *str, Word *wFront, Word *wEnd, int *chars, int *
 }
 */
 
-void convert_str_to_chs(char *str, Ch *cFront, Ch *cEnd, int *chars)
+Line* convert_str_to_chs(char *str)
 {
-	*chars = strlen(str);
+	Line *l = (Line*)malloc(sizeof(Line*));
+	l->no_of_chars = strlen(str);
 	Ch *temp, *prev;
 	for(int i = 0; i < *chars; i++)
 	{
@@ -41,7 +42,7 @@ void convert_str_to_chs(char *str, Ch *cFront, Ch *cEnd, int *chars)
 		temp->ch = str[i];
 		if(i == 0)
 		{
-			cFront = temp;
+			l->first_char = temp;
 			prev = temp;
 		}
 		else
@@ -51,7 +52,8 @@ void convert_str_to_chs(char *str, Ch *cFront, Ch *cEnd, int *chars)
 			prev = temp;
 		}
 	}
-	cEnd = prev;
+	l->last_char = prev;
+	return l;
 }
 
 Ch* findPos(Line *line, int pos)
@@ -67,13 +69,12 @@ int insert_at_pos(Line *l, int position, char *str)
 {
 	if(position > l->no_of_chars+1)
 		return 0;
-	Ch *cFront, *cEnd;
 	Ch *pos = findPos(l, position);	
 	Ch *pos2;
+	Line *temp;
 	if(pos != NULL)
 		pos2 = pos->next;
 	int chars = 0;
-	convert_str_to_chs(str, cFront, cEnd, &chars);
 	l->no_of_chars += chars;
 
 	if(pos != NULL)
