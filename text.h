@@ -39,4 +39,6 @@ typedef struct ls Lines;
 Ch* findPos(Line *line, int pos);
 Line* convert_str_to_chs(char *str);
 Line* insert_at_pos(Line *l, int position, char *str);
+Line* delete_at_pos(Line *l, int position);
+Line* delete_char(Line *l, Ch* c);
 void display(Line *l);

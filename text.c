@@ -106,7 +106,9 @@ Line* convert_str_to_chs(char *str)
 Ch* findPos(Line *line, int pos)
 {
 	Ch *temp = line->first_char;
-	int i = 1;
+	int i = 2;
+	if(pos == 1)
+		return NULL;
 	while(i<pos)
 	{
 		temp=temp->next;
@@ -119,22 +121,32 @@ Line* insert_at_pos(Line *l, int position, char *str)
 {
 	if(position > l->no_of_chars+1)
 		return l;
-	Ch *pos = findPos(l, position);	
-	Ch *pos2;
 	Line *temp;
-	if(pos != NULL)
-		pos2 = pos->next;
-	int chars = 0;
 	temp = convert_str_to_chs(str);
-	
+	int chars = 0;
+	chars = temp->no_of_chars;
 	l->no_of_chars += chars;
+
+	//if Line is empty
 	if(l->first_char == NULL)
 	{
 		l = temp;
 		return l;
 	}
+	//
+	Ch *pos = findPos(l, position);	
+	Ch *pos2;
+	
+	if(pos != NULL)
+		pos2 = pos->next;
+	else
+		pos2 = l->first_char;	
+	
 	if(pos != NULL)
 		pos->next = temp->first_char;
+	else
+		l->first_char = temp->first_char;//im here 	
+
 	(temp->first_char)->prev = pos;
 
 	if(pos2 != NULL)
@@ -143,6 +155,29 @@ Line* insert_at_pos(Line *l, int position, char *str)
 		l->last_char = temp->last_char;
 	(temp->last_char)->next = pos2;
 
+	return l;
+}
+
+Line* delete_at_pos(Line *l, int position)
+{
+	Ch *c = findPos(l, position);
+	if(c != NULL)
+		delete_char(l,c);
+	return l;
+}
+
+Line* delete_char(Line *l, Ch* c)
+{
+	Ch *next = c->next;
+	Ch *prev = c->prev;
+	if(next != NULL)
+		next->prev = prev;
+	else
+		l->last_char = prev;
+	if(prev != NULL)
+		prev->next = next;
+	else
+		l->first_char = next;
 	return l;
 }
 
@@ -187,6 +222,10 @@ int main()
 				display(l);
 				break;
 			case 2:
+				printf("Enter pos to delete\n");
+				scanf("%d", &pos);
+				l = delete_at_pos(l, pos);
+				display(l);
 				break;
 			case 3: 
 				display(l);
