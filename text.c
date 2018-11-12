@@ -117,24 +117,19 @@ Ch* findPos(Line *line, int pos)
 	return temp;
 }
 
-Line* insert_at_pos(Line *l, int position, char *str)
+Line* insert_line(Line *l, Ch *pos, Line *temp)
 {
-	if(position > l->no_of_chars+1)
-		return l;
-	Line *temp;
-	temp = convert_str_to_chs(str);
 	int chars = 0;
+	
 	chars = temp->no_of_chars;
 	l->no_of_chars += chars;
 
-	//if Line is empty
+	// if Line is empty
 	if(l->first_char == NULL)
 	{
 		l = temp;
 		return l;
 	}
-	//
-	Ch *pos = findPos(l, position);	
 	Ch *pos2;
 	
 	if(pos != NULL)
@@ -145,7 +140,7 @@ Line* insert_at_pos(Line *l, int position, char *str)
 	if(pos != NULL)
 		pos->next = temp->first_char;
 	else
-		l->first_char = temp->first_char;//im here 	
+		l->first_char = temp->first_char;
 
 	(temp->first_char)->prev = pos;
 
@@ -158,8 +153,22 @@ Line* insert_at_pos(Line *l, int position, char *str)
 	return l;
 }
 
+Line* insert_at_pos(Line *l, int position, char *str)
+{
+	if(position > l->no_of_chars+1)
+		return l;
+	Line *temp;
+	temp = convert_str_to_chs(str);
+	Ch *pos = findPos(l, position);	
+	l = insert_line(l, pos, temp);
+
+	return l;
+}
+
 Line* delete_at_pos(Line *l, int position)
 {
+	if(position > l->no_of_chars+1)
+		return l;
 	Ch *c = findPos(l, position);
 	if(c != NULL)
 		delete_char(l,c);
@@ -178,6 +187,7 @@ Line* delete_char(Line *l, Ch* c)
 		prev->next = next;
 	else
 		l->first_char = next;
+	l->no_of_chars -= 1;
 	return l;
 }
 
@@ -194,14 +204,8 @@ void display(Line *l)
 
 int main()
 {
-
-	//Lines *lines = (Lines*) malloc(sizeof(Lines*));
-	//lines->no_of_lines = 0;
-	//lines->first_line = NULL;
-	//char s[1000];
-//	fgets(s, 1000, stdin);
-
-	char str[] = "strtok needs to be called several times to split a string";
+	//char str[] = "strtok needs to be called several times to split a string";
+	char str[] = "strtok";
 	Line *l = (Line*)malloc(sizeof(Line));
 	l->no_of_chars = 0;
 	l = insert_at_pos(l,1,str);
@@ -220,15 +224,18 @@ int main()
 				scanf("%d", &pos);
 				l = insert_at_pos(l,pos,s);
 				display(l);
+				//printf("%d\n",l->no_of_chars);
 				break;
 			case 2:
 				printf("Enter pos to delete\n");
 				scanf("%d", &pos);
 				l = delete_at_pos(l, pos);
 				display(l);
+				//printf("%d\n",l->no_of_chars);
 				break;
 			case 3: 
 				display(l);
+				//printf("%d\n",l->no_of_chars);
 			case 4:
 				break;
 			default:
