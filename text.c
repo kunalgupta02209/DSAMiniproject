@@ -188,6 +188,7 @@ Line* delete_char(Line *l, Ch* c)
 	else
 		l->first_char = next;
 	l->no_of_chars -= 1;
+	free(c);
 	return l;
 }
 
