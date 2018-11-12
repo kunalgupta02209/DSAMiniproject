@@ -103,11 +103,11 @@ Line* convert_str_to_chs(char *str)
 	return l;
 }
 
-Ch* findPos(Line *line, int pos)
+Ch* findPos(Line *l, int pos)
 {
-	Ch *temp = line->first_char;
-	int i = 2;
-	if(pos == 1)
+	Ch *temp = l->first_char;
+	int i = 1;
+	if(pos == 0)
 		return NULL;
 	while(i<pos)
 	{
@@ -158,7 +158,10 @@ Line* insert_at_pos(Line *l, int position, char *str)
 	if(position > l->no_of_chars+1)
 		return l;
 	Line *temp;
+	//mvprintw(HEIGHT+2, 0, "before %s", str);
 	temp = convert_str_to_chs(str);
+	//mvprintw(HEIGHT+3, 0, "temp-> strlen %c", (temp->first_char)->ch);
+	//refresh();
 	Ch *pos = findPos(l, position);	
 	l = insert_line(l, pos, temp);
 
@@ -197,17 +200,45 @@ void display(Line *l)
 	Ch *cur = l->first_char;
 	while(cur != NULL)
 	{
-		printf("%c", cur->ch);
+		//printf("%c", cur->ch); // use for non GUI interface
+		printw("%c", cur->ch);
 		cur = cur->next;
 	}
-	printf("\n");
+	//printf("\n"); // use for non GUI interface
 }
 
+void display_gui(Line *l, WINDOW *win)
+{
+	werase(win);
+	Ch *cur = l->first_char;
+	wmove(win,0,0);
+	while(cur != NULL)
+	{
+		if(cur->ch != '\0')
+			wprintw(win, "%c", cur->ch);
+		cur = cur->next;
+	}
+	//wrefresh(win);
+}
+
+Line* init_line()
+{
+	Line *l = (Line*)malloc(sizeof(Line*));
+	l->no_of_chars = 0;
+	l->first_char = NULL;
+	l->last_char = NULL;
+}
+
+int calc_pos(int y, int x)
+{
+	return (WIDTH*y)+x;
+}
+/*
 int main()
 {
 	//char str[] = "strtok needs to be called several times to split a string";
 	char str[] = "strtok";
-	Line *l = (Line*)malloc(sizeof(Line));
+	Line l = (Line)malloc(sizeof(Line));
 	l->no_of_chars = 0;
 	l = insert_at_pos(l,1,str);
 	int choice = 1, pos = 0;
@@ -246,3 +277,4 @@ int main()
 	
 	return 0;
 }
+*/

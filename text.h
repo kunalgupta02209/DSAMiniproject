@@ -2,7 +2,12 @@
 #include<stdlib.h>
 #include<string.h>
 #include<ctype.h>
+#include<ncurses.h>
 
+#define WIDTH 100
+#define HEIGHT 40 
+#define STARTX 0
+#define STARTY 0
 
 /*struct w{
 	char *chs;
@@ -37,9 +42,12 @@ typedef struct ls Lines;
 //int insert_front(Line line, char* str);
 //void convert_str_to_words(char *str, Word *wFront, Word *wEnd, int *chars, int *words);
 Line* convert_str_to_chs(char *str);
-Ch* findPos(Line *line, int pos);
+Ch* findPos(Line *l, int pos);
 Line* insert_line(Line *l, Ch *pos, Line *temp);
 Line* insert_at_pos(Line *l, int position, char *str);
 Line* delete_at_pos(Line *l, int position);
 Line* delete_char(Line *l, Ch* c);
+Line* init_line();
 void display(Line *l);
+void display_gui(Line *l, WINDOW *win);
+int calc_pos(int y, int x);
