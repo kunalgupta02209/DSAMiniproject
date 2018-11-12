@@ -63,6 +63,8 @@ int main()
 				pos = calc_pos(y,x);
 				break;
 			}
+			case KEY_DC:
+			case 127:
 			case KEY_BACKSPACE:
 			{
 				werase(win);
@@ -76,6 +78,29 @@ int main()
 				}
 				pos = calc_pos(y,x);
 				display_gui(l,win);
+				break;
+			}
+			case '\t':
+			{
+				char tab[] = "    ";
+				werase(win);
+				if(l->no_of_chars+1 > pos)
+				{
+					l = insert_at_pos(l,pos,tab);
+					if(x<WIDTH-1)
+						x+=4;
+					else if(y<HEIGHT-2)
+					{
+						x=3;
+						y++;
+					}
+				}
+				pos = calc_pos(y,x);
+				display_gui(l,win);
+				wrefresh(win);
+			}
+			case '\n':
+			{
 				break;
 			}
 			case KEY_F(1):

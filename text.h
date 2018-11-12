@@ -9,6 +9,8 @@
 #define STARTX 0
 #define STARTY 0
 
+#define TAB_WIDTH 4
+
 /*struct w{
 	char *chs;
 	int size; //size of each word
